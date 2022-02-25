@@ -1,0 +1,10 @@
+C:\Users\IT-CAT\source\repos\GameLive\bin\Debug\GameLive.exe.config
+C:\Users\IT-CAT\source\repos\GameLive\bin\Debug\GameLive.exe
+C:\Users\IT-CAT\source\repos\GameLive\bin\Debug\GameLive.pdb
+C:\Users\IT-CAT\source\repos\GameLive\obj\Debug\GameLive.csproj.AssemblyReference.cache
+C:\Users\IT-CAT\source\repos\GameLive\obj\Debug\GameLive.Form1.resources
+C:\Users\IT-CAT\source\repos\GameLive\obj\Debug\GameLive.Properties.Resources.resources
+C:\Users\IT-CAT\source\repos\GameLive\obj\Debug\GameLive.csproj.GenerateResource.cache
+C:\Users\IT-CAT\source\repos\GameLive\obj\Debug\GameLive.csproj.CoreCompileInputs.cache
+C:\Users\IT-CAT\source\repos\GameLive\obj\Debug\GameLive.exe
+C:\Users\IT-CAT\source\repos\GameLive\obj\Debug\GameLive.pdb
