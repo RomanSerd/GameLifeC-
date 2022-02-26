@@ -21,8 +21,6 @@ namespace GameLive
             if (timer1.Enabled)
                 return;
 
-            nResolution.Enabled = false;
-            nDensity.Enabled = false;
 
             resolution = (int)nResolution.Value;
 
@@ -31,17 +29,26 @@ namespace GameLive
 
             field = new bool[cols, rows];
             Random rand = new Random();
-            for(int x = 0; x < cols; x++)
+            if (cDensity.Checked)
             {
-                for(int y = 0; y < rows; y++)
+                for (int x = 0; x < cols; x++)
                 {
-                    field[x, y] = rand.Next((int)nDensity.Value) == 0;
+                    for (int y = 0; y < rows; y++)
+                    {
+                        field[x, y] = rand.Next((int)nDensity.Value) == 0;
+                    }
                 }
             }
-
+            else
+                ClearField();
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(pictureBox1.Image);
             timer1.Start();
+
+
+            nResolution.Enabled = false;
+            nDensity.Enabled = false;
+            cDensity.Enabled = false;
         }
         private void StopGame()
         {
@@ -51,6 +58,7 @@ namespace GameLive
             pause = true;
             nResolution.Enabled = true;
             nDensity.Enabled = true;
+            cDensity.Enabled = true;
         }
         private void PauseGame()
         {
@@ -95,6 +103,18 @@ namespace GameLive
                 }
             }
             pictureBox1.Refresh();
+        }
+        private void ClearField()
+        {
+            for (int x = 0; x < cols; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    field[x, y] = false;
+
+                }
+            }
+
         }
         private int CountNeighbours(int x, int y)
         {
@@ -154,6 +174,25 @@ namespace GameLive
         private void timer1_Tick(object sender, EventArgs e)
         {
             NextGeneration();
+        }
+
+        private void bClear_Click(object sender, EventArgs e)
+        {
+            ClearField();
+            DrawField();
+        }
+        private void cDensity_CheckedChanged(object sender, EventArgs e)
+        {
+            nDensity.Enabled = cDensity.Checked;
+        }
+
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        {
+            timer1.Interval = ParseDecimalOfSecond(numericUpDown3.Value);
+        }
+        private int ParseDecimalOfSecond(decimal D)
+        {
+            return (int)(D * 1000);
         }
     }
 }
