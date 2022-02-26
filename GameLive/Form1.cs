@@ -8,10 +8,9 @@ namespace GameLive
     {
         private Graphics graphics;
         private int resolution;
-        private bool[,] field;
         private bool pause = true;
-        int rows;
-        int cols;
+
+        EngineGameLive engine;
         public Form1()
         {
             InitializeComponent();
@@ -21,26 +20,14 @@ namespace GameLive
             if (timer1.Enabled)
                 return;
 
-
             resolution = (int)nResolution.Value;
+            engine = new EngineGameLive(pictureBox1.Height / resolution, pictureBox1.Width / resolution);
 
-            rows = pictureBox1.Height / resolution;
-            cols = pictureBox1.Width / resolution;
-
-            field = new bool[cols, rows];
-            Random rand = new Random();
             if (cDensity.Checked)
-            {
-                for (int x = 0; x < cols; x++)
-                {
-                    for (int y = 0; y < rows; y++)
-                    {
-                        field[x, y] = rand.Next((int)nDensity.Value) == 0;
-                    }
-                }
-            }
+                engine.CreateField((int)nDensity.Value);
             else
-                ClearField();
+                engine.CreateNullField();
+
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(pictureBox1.Image);
             timer1.Start();
@@ -68,35 +55,14 @@ namespace GameLive
             pause = !pause;
             timer1.Enabled = !timer1.Enabled;
         }
-        private void NextGeneration()
-        {
-
-            bool[,] newField = new bool[cols, rows];
-            for (int x = 0; x < cols; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
-                    int neighboursCount = CountNeighbours(x, y);
-                    bool HasLive = field[x, y];
-
-                    if (!HasLive && neighboursCount == 3)
-                        newField[x, y] = true;
-                    else if(HasLive && (neighboursCount <2 || neighboursCount>3))
-                        newField[x, y] = false;
-                    else
-                        newField[x, y] = field[x, y];
-                }
-            }
-            field = newField;
-            DrawField();
-            
-        }
         private void DrawField()
         {
             graphics.Clear(Color.Black);
-            for (int x = 0; x < cols; x++)
+            bool[,] field = engine.GetField();
+   
+            for (int x = 0; x < field.GetLength(0); x++)
             {
-                for (int y = 0; y < rows; y++)
+                for (int y = 0; y < field.GetLength(1); y++)
                 {
                     if(field[x,y])
                         graphics.FillRectangle(Brushes.Crimson, x * resolution, y * resolution, resolution - 1, resolution - 1);
@@ -104,36 +70,9 @@ namespace GameLive
             }
             pictureBox1.Refresh();
         }
-        private void ClearField()
-        {
-            for (int x = 0; x < cols; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
-                    field[x, y] = false;
-
-                }
-            }
-
-        }
-        private int CountNeighbours(int x, int y)
-        {
-            int Count = 0;
-            for(int k = -1; k <2; k++)
-            {
-                for(int j = -1; j<2; j++)
-                {
-                    bool isSelfChecking = x+k == x && y+j == y;
-                    bool hasLive = field[(cols + x + j)%cols, (rows + y + k) %rows];
-                    if (hasLive&& !isSelfChecking)
-                        Count++;
-                }
-            }
-            return Count;
-        }
         private bool ValidateMousePosition(int x, int y)
         {
-            return x > 0 && y > 0 & x < cols && y < rows;
+            return x > 0 && y > 0 & x < pictureBox1.Width / resolution && y < pictureBox1.Height / resolution;
         }
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -146,7 +85,7 @@ namespace GameLive
                 var y = e.Location.Y / resolution;
                 if (!ValidateMousePosition(x, y))
                     return;
-                field[x, y] = true;
+                engine.ChangeCell(x, y, true);
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -154,7 +93,7 @@ namespace GameLive
                 var y = e.Location.Y / resolution;
                 if (!ValidateMousePosition(x, y))
                     return;
-                field[x, y] = false;
+                engine.ChangeCell(x, y, false);
             }
             DrawField();
         }
@@ -173,12 +112,13 @@ namespace GameLive
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            NextGeneration();
+            engine.NextGeneration();
+            DrawField();
         }
 
         private void bClear_Click(object sender, EventArgs e)
         {
-            ClearField();
+            engine.CreateNullField();
             DrawField();
         }
         private void cDensity_CheckedChanged(object sender, EventArgs e)
