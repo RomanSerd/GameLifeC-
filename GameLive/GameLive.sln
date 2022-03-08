@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLive", "GameLive.csproj", "{C2028E1D-A6B8-44AB-941C-792CD45AADE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLiveConsole", "..\GameLiveConsole\GameLiveConsole.csproj", "{EF12A8C5-99F4-4329-85F2-746AF444C408}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C2028E1D-A6B8-44AB-941C-792CD45AADE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2028E1D-A6B8-44AB-941C-792CD45AADE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2028E1D-A6B8-44AB-941C-792CD45AADE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF12A8C5-99F4-4329-85F2-746AF444C408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF12A8C5-99F4-4329-85F2-746AF444C408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF12A8C5-99F4-4329-85F2-746AF444C408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF12A8C5-99F4-4329-85F2-746AF444C408}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
